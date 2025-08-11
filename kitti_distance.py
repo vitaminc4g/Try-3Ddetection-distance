@@ -54,13 +54,28 @@ def main():
         "distance_m": nearest_dist
     })
 
+    # === 追記 A: 原点→最近傍点の線分とマーカー ===
+    origin_pts = np.array([[0.0, 0.0, 0.0], nearest_xyz])
+    line = o3d.geometry.LineSet()
+    line.points = o3d.utility.Vector3dVector(origin_pts)
+    line.lines = o3d.utility.Vector2iVector([[0, 1]])
+    line.colors = o3d.utility.Vector3dVector([[1.0, 0.0, 0.0]])  # 赤
+
+    sphere = o3d.geometry.TriangleMesh.create_sphere(radius=0.2)
+    sphere.paint_uniform_color([1.0, 0.0, 0.0])
+    T = np.eye(4); T[:3, 3] = nearest_xyz
+    sphere.transform(T)
+    # === 追記ここまで ===
+
     # 6) optional viz
     if args.viz:
         pcd_roi = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(pts_roi))
         frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=1.0)
         T = np.eye(4); T[:3, 3] = nearest_xyz
         frame.transform(T)
-        o3d.visualization.draw_geometries([pcd_roi, frame])
+        # 追記要素（line, sphere）を可視化に追加
+        o3d.visualization.draw_geometries([pcd_roi, frame, line, sphere])
+
 
 if __name__ == "__main__":
     main()
