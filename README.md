@@ -1,4 +1,4 @@
-# Try-OpenPCDet 
+# Try-open3d  
 Data set https://www.cvlibs.net/datasets/kitti/
 
 ## Ref
@@ -8,5 +8,3 @@ Data set https://www.cvlibs.net/datasets/kitti/
   - training
   - testing
   - velodyne
-    
-- 
